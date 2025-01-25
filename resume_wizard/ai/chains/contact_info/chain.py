@@ -62,51 +62,103 @@ def create_contact_info_chain(
 
 def extract_contact_info(
     chain: RunnablePassthrough,
-    resume_text: str
+    resume_text: str,
+    parser_tools: _ResumeParsingTools
 ) -> str:
     """Extract contact information from a resume text."""
+    print("\n=== Starting Contact Info Extraction ===")
+    
     messages = [
         {"role": "user", "content": f"Please extract contact information from this resume:\n\n{resume_text}"}
     ]
     
+    print("\n=== Initial Message History ===")
+    for msg in messages:
+        print(f"{msg['role'].upper()}: {msg['content'][:100]}...")
+    
     while True:
-        # Get next response
+        print("\n=== Getting Next Response ===")
         response = chain.invoke(messages)
         
-        print(f"\nRESPONSE:")
-        print(f"Content: {response.content}")
-        print(f"Metadata: {response.response_metadata}")
+        print("\n=== Response Details ===")
+        print(f"Stop Reason: {response.response_metadata.get('stop_reason')}")
+        print(f"Content Type: {type(response.content)}")
+        if isinstance(response.content, list):
+            for block in response.content:
+                print(f"Block Type: {block.get('type')}")
+                if block.get('type') == 'text':
+                    print(f"Text: {block['text']}")
+                elif block.get('type') == 'tool_use':
+                    print(f"Tool: {block['name']}")
+                    print(f"Input: {block['input']}")
+                    print(f"Tool Use ID: {block['id']}")
         
         # Add assistant's response to messages
         messages.append({"role": "assistant", "content": response.content})
         
+        print("\n=== Current Message History ===")
+        for msg in messages:
+            print(f"{msg['role'].upper()}: {str(msg['content'])[:100]}...")
+        
         # If no more tool calls, we're done
         if response.response_metadata.get('stop_reason') != "tool_use":
+            print("\n=== Conversation Complete ===")
             break
             
-        # Get the tool use block
-        tool_use = next(block for block in response.content if block.get('type') == "tool_use")
+        # Get all tool use blocks
+        tool_uses = [block for block in response.content if block.get('type') == "tool_use"]
         
-        print(f"\nTOOL USE:")
-        print(f"Tool: {tool_use}")
-        
-        # Add tool result to messages
-        messages.append({
-            "role": "user",
-            "content": [
-                {
-                    "type": "tool_result",
-                    "tool_use_id": tool_use['id'],
-                    "content": "Tool executed successfully"
-                }
-            ]
-        })
+        # Process each tool use
+        for tool_use in tool_uses:
+            print(f"\nTool Use ID from block: {tool_use['id']}")
+            
+            print("\n=== Executing Tool ===")
+            print(f"Tool Name: {tool_use['name']}")
+            print(f"Tool Input: {tool_use['input']}")
+            
+            # Actually execute the tool
+            tool_name = tool_use['name']
+            tool_args = tool_use['input']
+            
+            if tool_name == 'set_contact_info':
+                print("Calling set_contact_info...")
+                # Ensure phone has a default value of None
+                if 'phone' not in tool_args:
+                    tool_args['phone'] = None
+                result = parser_tools.set_contact_info(**tool_args)
+            elif tool_name == 'set_social_links':
+                print("Calling set_social_links...")
+                result = parser_tools.set_social_links(**tool_args)
+            else:
+                result = f"Unknown tool: {tool_name}"
+                
+            print(f"Tool Result: {result}")
+            
+            # Add tool result to messages
+            tool_message = {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "tool_result",
+                        "tool_use_id": tool_use['id'],
+                        "content": result
+                    }
+                ]
+            }
+            messages.append(tool_message)
+            
+            print("\n=== Added Tool Result ===")
+            print(f"Tool Result Message: {tool_message}")
+            print(f"Tool Use ID in result: {tool_message['content'][0]['tool_use_id']}")
     
-    # Get the final text, handling both string and block content
+    print("\n=== Final Response ===")
     if isinstance(response.content, str):
+        print(f"String Content: {response.content}")
         return response.content
     else:
-        return next(
+        final_text = next(
             (block['text'] for block in response.content if block.get('type') == 'text'),
             None
         )
+        print(f"Block Content: {final_text}")
+        return final_text

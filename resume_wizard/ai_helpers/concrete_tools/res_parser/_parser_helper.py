@@ -165,11 +165,61 @@ class _ResumeParserHelper(BaseModel):
             education=education_schemas,
             experience=experience_schemas,
             skills=skills_schema,
-            projects=project_schemas,
-            languages=self.skills["languages"]  # Languages appear both in skills and at top level
+            projects=project_schemas
         )
     
     @classmethod
     def _increment_user_int(cls: Type['_ResumeParserHelper']) -> None:
         """Increment the user_int."""
         cls.user_int += 1
+
+    def set_contact_info(
+        self,
+        name: str,
+        email: str,
+        phone: Optional[str] = None
+    ) -> str:
+        """Set the contact information for the resume.
+        
+        Args:
+            name: Full name of the candidate
+            email: Email address
+            phone: Phone number (optional)
+            
+        Returns:
+            str: Success message
+        """
+        self._resume_data.contact_info = _ContactInfoSchema(
+            name=name,
+            email=email,
+            phone=phone
+        )
+        return "Successfully set contact info"
+
+class _ResumeParsingTools:
+    """Tools for parsing resume data."""
+    
+    def __init__(self, parser_helper: _ResumeParserHelper) -> None:
+        self._parser_helper = parser_helper
+    
+    def set_contact_info(
+        self,
+        name: str,
+        email: str,
+        phone: Optional[str] = None
+    ) -> str:
+        """Set contact info in the resume data.
+        
+        Args:
+            name: Full name of the candidate
+            email: Email address
+            phone: Phone number (optional)
+            
+        Returns:
+            str: Success message
+        """
+        return self._parser_helper.set_contact_info(
+            name=name,
+            email=email,
+            phone=phone
+        )

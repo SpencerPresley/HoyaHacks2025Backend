@@ -68,7 +68,7 @@ class _ExperienceSchema(BaseModel):
         None, 
         description="Whether this is a current position"
     )
-    type: Optional[str] = Field(
+    position_type: Optional[str] = Field(
         None, 
         description="Type of position (full-time, part-time, internship, etc.)"
     )
@@ -168,4 +168,16 @@ class _SkillsSchema(BaseModel):
         None, 
         description="Other technical skills and competencies"
     )
+
+class _SocialLinksSchema(BaseModel):
+    """Schema for social media links."""
+    linkedin: Optional[str] = Field(None, description="LinkedIn profile URL")
+    github: Optional[str] = Field(None, description="GitHub profile URL")
+
+class _ContactInfoSchema(BaseModel):
+    """Schema for contact information."""
+    name: str = Field(description="Full name of the candidate")
+    email: str = Field(description="Email address")
+    phone: Optional[str] = Field(None, description="Phone number (if available)")
+    social_links: Optional[_SocialLinksSchema] = Field(None, description="Social media profile links")
 

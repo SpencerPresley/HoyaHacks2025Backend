@@ -22,9 +22,9 @@ class _ResumeParsingTools(BaseModel):
 
     def set_contact_info(
         self,
-        name: str | None,
-        email: str | None,
-        phone: str | None,
+        name: str | None = None,
+        email: str | None = None,
+        phone: str | None = None,
     ) -> str:
         """Set basic contact information for the resume.
         
@@ -65,7 +65,7 @@ class _ResumeParsingTools(BaseModel):
 
     def set_objective(
         self,
-        objective: str
+        objective: str | None = None
     ) -> str:
         """Set the career objective or professional summary.
         
@@ -75,7 +75,7 @@ class _ResumeParsingTools(BaseModel):
         Returns:
             str: Confirmation message
         """
-        self._parser_helper.objective = objective
+        self._parser_helper.objective = objective or "Career objective not provided"
         return "Set career objective"
 
     def add_education(

@@ -30,15 +30,8 @@ class ResumeAnalysisSchema(BaseModel):
         education (List[_EducationSchema]): Educational background and qualifications
         experience (List[_ExperienceSchema]): Professional work experience
         skills (List[str]): List of professional skills and competencies
-        projects (List[_ProjectSchema]): Notable projects and their details
+        projects (List[ _ProjectSchema]): Notable projects and their details
         certifications (List[str]): Professional certifications and credentials
-        languages (List[str]): Programming languages mentioned throughout the resume
-    
-    Methods:
-        set_required_defaults: Sets default values for the required fields if not provided
-        _generate_random_email: Generates a random email address
-        _generate_random_phone: Generates a random phone number
-        _generate_random_name: Generates a random name
     """
     # User-provided required fields.
     #
@@ -86,8 +79,4 @@ class ResumeAnalysisSchema(BaseModel):
     projects: Optional[List[_ProjectSchema]] = Field(
         None, 
         description="Notable projects and their details"
-    )
-    languages: Optional[List[str]] = Field(
-        None, 
-        description="Programming languages mentioned throughout the resume"
     )

@@ -7,10 +7,17 @@ from pydantic import BaseModel, Field
 from resume_wizard.ai_helpers.concrete_tools.res_parser import _ResumeParsingTools
 
 class ContactInfoInput(BaseModel):
-    """Input schema for contact info extraction."""
-    name: Optional[str] = Field(None, description="Full name found in the resume")
-    email: Optional[str] = Field(None, description="Email address found in the resume")
-    phone: Optional[str] = Field(None, description="Phone number found in the resume")
+    """Input schema for contact information."""
+    name: str = Field(
+        description="Full name of the candidate"
+    )
+    email: str = Field(
+        description="Email address"
+    )
+    phone: Optional[str] = Field(
+        None,
+        description="Phone number (if available)"
+    )
 
 class SocialLinksInput(BaseModel):
     """Input schema for social links."""
@@ -37,6 +44,8 @@ def create_contact_info_tools(parser_tools: _ResumeParsingTools) -> list[Dict[st
             del schema["$schema"]
         if "description" in schema:
             del schema["description"]
+        if "required" in schema:
+            schema["required"] = [field for field in schema["required"] if field != "phone"]
     
     return [
         {

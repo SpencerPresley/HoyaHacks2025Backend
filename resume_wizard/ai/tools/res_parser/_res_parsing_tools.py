@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
     from ._parser_helper import _ResumeParserHelper
+    from resume_wizard.models.resume_analysis.core import ResumeAnalysisSchema
 
 class _ResumeParsingTools(BaseModel):
     """A class housing helper methods for parsing resumes.
@@ -310,6 +311,16 @@ class _ResumeParsingTools(BaseModel):
         """
         self.parser_helper.add_soft_skills(skills)
         return f"Added soft skills: {', '.join(skills)}"
+
+    def build_resume(self) -> ResumeAnalysisSchema:
+        """Build the final ResumeAnalysisSchema from all collected data.
+        
+        This should be called after all resume information has been added using the other tools.
+        
+        Returns:
+            ResumeAnalysisSchema: The final resume schema
+        """
+        return self.parser_helper.build_resume_schema()
         
     
     
