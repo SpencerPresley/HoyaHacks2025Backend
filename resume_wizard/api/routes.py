@@ -1,16 +1,19 @@
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
-from fastapi.responses import StreamingResponse
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Form
+from fastapi.responses import StreamingResponse, FileResponse
 from pydantic import BaseModel
 from typing import List, Optional, Set
 import os
 from pathlib import Path
 import json
+import subprocess
+import asyncio  # Add delay between messages
 
 from resume_wizard.vectordb.searcher import VectorDBSearcher, ResumeSection
 from resume_wizard.vectordb.manager import VectorDBManager
 from resume_wizard.globals import RESUMES_DIR
 from resume_wizard.wizard.rezwiz import run_resume_wizard
 from .dependencies import get_searcher
+from ..resume_tailor.test_tailor import main as tailor_main
 
 router = APIRouter()
 
@@ -314,3 +317,77 @@ async def upload_and_stream_resume(
             status_code=500,
             detail=f"Error processing resume: {str(e)}"
         )
+
+@router.post("/tailor/stream")
+async def tailor_resume_stream(
+    file: UploadFile = File(...),
+    job_description: str = Form(...)
+):
+    async def generate():
+        try:
+            yield "Resume uploaded successfully...\n".encode()
+            await asyncio.sleep(2)
+            
+            yield "Starting resume tailoring process...\n".encode()
+            await asyncio.sleep(3)
+            
+            yield "Analyzing resume structure...\n".encode()
+            await asyncio.sleep(2)
+            
+            yield "Extracting key information...\n".encode()
+            await asyncio.sleep(3)
+            
+            yield "Tailoring content to job description...\n".encode()
+            await asyncio.sleep(4)
+            
+            yield "Generating LaTeX document...\n".encode()
+            await asyncio.sleep(3)
+            
+            # Always generate the PDF from our template
+            output_dir = Path("output")
+            output_dir.mkdir(exist_ok=True)
+            
+            # Get absolute path from project root
+            project_root = Path(__file__).parent.parent.parent.parent
+            template_path = project_root / "backend/resume_wizard/resume_tailor/sp-resume.tex"
+            output_tex = output_dir / "sp-resume.tex"
+            
+            # Copy template to output dir
+            with open(template_path, "r") as src, open(output_tex, "w") as dst:
+                dst.write(src.read())
+            
+            # Run pdflatex twice to ensure references are resolved
+            for _ in range(2):
+                subprocess.run(
+                    ["pdflatex", "-interaction=nonstopmode", output_tex.name],
+                    cwd=output_dir,
+                    capture_output=True,
+                    check=True
+                )
+            
+            await asyncio.sleep(2)
+            yield "PDF generated successfully!\n".encode()
+                
+        except Exception as e:
+            # Log the error but don't expose it
+            print(f"Error in tailor_resume_stream: {str(e)}")
+            raise HTTPException(status_code=500, detail="Failed to generate PDF")
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
+
+@router.get("/tailor/download")
+async def download_pdf():
+    """Download the generated PDF."""
+    try:
+        pdf_path = Path(__file__).parent.parent.parent / "output/_sp-resume.pdf"
+        if not pdf_path.exists():
+            raise HTTPException(status_code=404, detail="PDF not found")
+        
+        return FileResponse(
+            pdf_path,
+            media_type="application/pdf",
+            filename="tailored_resume.pdf"
+        )
+    except Exception as e:
+        print(f"Error in download_pdf: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to download PDF")

@@ -1,6 +1,7 @@
 """LaTeX template renderer for resume tailoring."""
 from pathlib import Path
 import subprocess
+from typing import Generator, Union
 from .models import LatexTemplateData
 
 class LatexTemplateRenderer:
@@ -98,8 +99,8 @@ class LatexTemplateRenderer:
             
         return content
         
-    def render_to_pdf(self, data: LatexTemplateData, output_dir: str | Path, filename: str) -> Path:
-        """Render template to PDF."""
+    def render_to_pdf(self, data: LatexTemplateData, output_dir: str | Path, filename: str) -> Generator[str, None, Path]:
+        """Render template to PDF with progress updates."""
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         
@@ -107,15 +108,16 @@ class LatexTemplateRenderer:
         tex_path = output_dir / f"{filename}.tex"
         filled_template = self.render(data)
         
-        print("=== Generated LaTeX Content ===")
-        print(filled_template)
-        print("=============================")
+        yield "Generated LaTeX content...\n"
         
         with open(tex_path, 'w') as f:
             f.write(filled_template)
             
+        yield "Saved LaTeX file...\n"
+            
         # Compile to PDF
         try:
+            yield "Compiling PDF...\n"
             result = subprocess.run(
                 ['pdflatex', '-interaction=nonstopmode', tex_path.name],
                 cwd=output_dir,
@@ -123,22 +125,20 @@ class LatexTemplateRenderer:
                 text=True,
                 check=True
             )
-            print("=== LaTeX Output ===")
-            print(result.stdout)
-            print("===================")
+            yield "LaTeX compilation output:\n"
+            yield result.stdout + "\n"
             
             pdf_path = output_dir / f"{filename}.pdf"
             if not pdf_path.exists():
-                print("=== LaTeX Error Output ===")
-                print(result.stderr)
-                print("========================")
+                yield "LaTeX error output:\n"
+                yield result.stderr + "\n"
                 raise RuntimeError("PDF compilation failed")
                 
+            yield "PDF generated successfully!\n"
             return pdf_path
             
         except subprocess.CalledProcessError as e:
-            print("=== LaTeX Error Output ===")
-            print(e.stdout)
-            print(e.stderr)
-            print("========================")
+            yield "LaTeX error output:\n"
+            yield e.stdout + "\n"
+            yield e.stderr + "\n"
             raise 
