@@ -1,0 +1,205 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[pdftex]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.530in}
+\addtolength{\evensidemargin}{-0.375in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-0.6in}
+\addtolength{\textheight}{1in}
+
+\urlstyle{rm}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-10pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-6pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{#1}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{#3} & \textit{#4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{#1} & \textit{#2} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      #1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeItemListEnd}{\end{itemize}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
+%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
+% \end{tabular*}
+
+\begin{center}
+    \textbf{\Huge \scshape {Spencer Presley}} \\ \vspace{1pt}
+    \small {(804) 349-5822} $|$ \href{mailto:{spencerpresley96@gmail.com}}{\underline{spencerpresley96@gmail.com}} $|$ 
+    \href{{https://www.linkedin.com/in/spencerpresley96}}{\underline{https://www.linkedin.com/in/spencerpresley96}} $|$
+    \href{{https://github.com/spencerpresley}}{\underline{https://github.com/spencerpresley}}
+\end{center}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Salisbury University} & {}, {} \\
+      {Bachelor of Science} & {08/2021} -- {05/2025}
+    % \resumeSubheading
+    %   {{university_name2}} & {{university_city2}}, {{university_state2}} \\
+    %   {{major_degree_name2}} & {{start_date2}} -- {{end_date2}}
+  \resumeSubHeadingListEnd
+
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Software Development Intern} & {05/2024} -- {08/2024} \\
+      {Horn Point Laboratory} & {}, {}
+      \resumeItemListStart
+        \resumeItem{Developed and deployed RESTful APIs using FastAPI and AWS EC2, demonstrating experience with cloud services and web architecture}
+        \resumeItem{Implemented scalable chatbot system using modern software engineering practices and asynchronous processing}
+        \resumeItem{Collaborated in an Agile team environment to deliver customer-focused AI solutions}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Research Developer} & {06/2024} -- {09/2024} \\
+      {Salisbury University} & {}, {}
+      \resumeItemListStart
+        \resumeItem{Led development and optimization of machine learning models, applying strong problem-solving skills and algorithms knowledge}
+        \resumeItem{Implemented automated testing frameworks for performance benchmarking}
+        \resumeItem{Developed cross-platform solutions for desktop and mobile environments}
+    \resumeItemListEnd
+
+    \resumeSubheading
+      {{work_title3}} & {{work_start_date3}} -- {{work_end_date3}} \\
+      {{work_company3}} & {{work_city3}}, {{work_state3}}
+      \resumeItemListStart
+        \resumeItem{{work_description_three1}}
+        \resumeItem{{work_description_three2}}
+        \resumeItem{{work_description_three3}}
+        \resumeItem{{work_description_three4}}
+        \resumeItem{{work_description_three5}}
+        \resumeItem{{work_description_three6}}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{TermBook} $|$ \emph{Next.js, TypeScript, Go, Git, RESTful APIs}} & {} -- {}
+          \resumeItemListStart
+            \resumeItem{Architected and implemented full-stack application using modern programming languages and frameworks}
+            \resumeItem{Developed cross-platform compatibility ensuring seamless user experience across different operating systems}
+            \resumeItem{Implemented RESTful API endpoints following best practices in API design}
+            \resumeItem{Led development team to hackathon victory through effective collaboration and technical leadership}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Rommel Center Research} $|$ \emph{Python, Next.js, Docker, REST APIs, Cloud Services}} & {} -- {}
+          \resumeItemListStart
+            \resumeItem{Built scalable full-stack application processing large datasets using modern software architecture}
+            \resumeItem{Implemented containerized deployment using Docker for consistent development and production environments}
+            \resumeItem{Developed automated data processing pipeline handling 400+ concurrent records}
+            \resumeItem{Applied object-oriented programming principles in building modular and maintainable code}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+
+
+%
+%-----------PROGRAMMING SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}: {} \\
+     \textbf{Frameworks}: {} \\
+     \textbf{Developer Tools}: {} \\
+     \textbf{Libraries}: {}
+    }}
+ \end{itemize}
+
+
+%-------------------------------------------
+\end{document}

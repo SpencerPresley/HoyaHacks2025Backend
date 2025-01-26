@@ -1,0 +1,322 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome}
+
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{2pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-3pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-2pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-2pt}
+}
+
+\newcommand{\resumePlainTextSubheading}[1]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{@{}p{0.97\textwidth}@{}}
+      #1 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{2pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+%\begin{comment}
+ \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{{\Large Spencer Presley}} \\
+   % \href{mailto:spencerpresley96@gmail.com}{\faEnvelopeO\ \underline{spencerpresley96@gmail.com}} & \href{https://www.linkedin.com/in/spencerpresley96}{\faLinkedin\ \underline{spencerpresley96}} \\
+    \href{mailto:spencerpresley96@gmail.com}{\faEnvelopeO\ \underline{spencerpresley96@gmail.com}} & \href{https://www.linkedin.com/in/spencerpresley96}{\faLinkedin\ \underline{https://www.linkedin.com/in/spencerpresley96}} \\
+   \faMobile\ (804) 349-5822 &
+   \href{https://github.com/spencerpresley}{\faGithub\ \underline{https://github.com/spencerpresley}} \\
+ \end{tabular*}
+%\end{comment}
+
+
+\begin{comment}
+\begin{center}
+    \textbf{\LARGE \scshape Spencer Presley} \\ \vspace{2pt}
+    \normalsize 804-349-5822 $|$ \href{mailto:contact@spencerpresley.com} {\normalsize contact@spencerpresley.com} $|$
+    \href{https://www.github.com/SpencerPresley}{\normalsize github.com/SpencerPresley}
+\end{center}
+\end{comment}
+
+%-----------ABOUT----------------
+\begin{comment}
+\section{Objective}
+    \resumeSubHeadingListStart
+        \resumePlainTextSubheading{Highly motivated computer science major with a robust academic foundation. Seeking the opportunity to continue expanding and improving my skills while also using my current skill-set to provide value to a team.}
+    \resumeSubHeadingListEnd
+\end{comment}
+%-------------------------------------------
+
+% \section{Objective}
+\section{Objective}
+
+\vspace{2pt}
+\small{
+Computer science student with strong foundations in object-oriented programming seeking a Jr. Software Development Engineer position at Amazon. Experienced in Java, Python, and C++, with a passion for solving complex technical challenges and collaborating with experienced engineers.
+}
+\vspace{-5pt}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Salisbury University}{Salisbury, MD}
+      {B.S. Computer Science, Minor in Mathematics}{Aug. 2021 -- May 2025}
+      \resumeItemListStart
+        \resumeItem{Relevant Coursework: Data Structures \& Algorithms, Object-Oriented Programming, Operating Systems}
+        \resumeItem{GPA: 3.8/4.0}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Java, Python, C++, TypeScript, Go} \\
+     \textbf{Tools \& Skills}{: Git, Docker, AWS, Linux, Object-Oriented Design, RESTful APIs, Agile} \\
+     \textbf{Libraries}{: Java Swing, pandas, NumPy, LangChain}
+    }}
+ \end{itemize}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Software Development Intern}{May 2024 -- August 2024}
+      {Horn Point Laboratory}{Cambridge, MD}
+      \resumeItemListStart
+        \resumeItem{Designed scalable microservices using object-oriented Python for concurrent request handling}
+        \resumeItem{Built and deployed RESTful APIs using FastAPI on AWS EC2 with 90\% test coverage}
+        \resumeItem{Collaborated with senior developers in Agile environment, participating in daily standups}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Research Developer}{June 2024 -- September 2024}
+      {Salisbury University}{Salisbury, MD}
+      \resumeItemListStart
+        \resumeItem{Led development of machine learning models using object-oriented Python and testing frameworks}
+        \resumeItem{Collaborated with cross-functional teams to optimize performance and implement new features}
+        \resumeItem{Mentored junior team members in software development best practices and Git version control}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{TermBook} $|$ \emph{Java, TypeScript, Go}}{January 2024 -- Present}
+          \resumeItemListStart
+            \resumeItem{Built cross-platform terminal app using Java OOP principles and robust error handling}
+            \resumeItem{Implemented RESTful APIs following SOLID principles and led team of 4 to hackathon victory}
+          \resumeItemListEnd
+      
+      \resumeProjectHeading
+          {\textbf{Research Data Pipeline} $|$ \emph{Python, Docker, AWS}}{September 2023 -- Present}
+          \resumeItemListStart
+            \resumeItem{Architected scalable data pipeline using object-oriented Python and Docker}
+            \resumeItem{Designed modular components with 85\% test coverage and automated deployment}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+% %-----------PROJECTS-----------
+% \section{Projects}
+%    \vspace{-5pt}
+%     \resumeSubHeadingListStart
+%       %--------------COSC 425--------------------%
+%    \resumeProjectHeading
+%     {\textbf{Academia Analytics  $|$ \textnormal{{\href{https://github.com/SpencerPresley/AcademiaAnalytics}{\faGithub\ \underline{SpencerPresley/AcademiaAnalytics}}}} $|$ \textnormal{2024 -- Present}}\\
+%     \begin{minipage}[t]{\linewidth}
+%         \small{\emph{%
+%         Python, NextJS, AWS S3, AWS EventBridge, AWS Lambda, AWS ECR, AWS API Gateway, GitHub Actions, Docker
+%         }}
+%     \end{minipage}}
+
+
+%           \resumeItemListStart
+%     \resumeItem{Architected and developed a robust full-stack application to process and analyze academic publication metadata from
+% Salisbury University, extracting information from a 40,000-line Web of Science export using a custom Python
+% backend. The backend process can be carried out for any University who's academic publication metadata is available through the Web of Science academic database.}
+%     \resumeItem{Implemented advanced data cleaning and normalization techniques using a custom MinHash algorithm in conjunction with the \underline{fuzzywuzzy} Python library for fuzzy string matching, resulting in accurate data deduplication and name standardization, facilitating precise data analysis and reporting.}
+%     \resumeItem{Developed a custom, multi-tiered taxonomy system with \underline{OpenAI's API} to classify academic articles into a structured hierarchy of research themes, enhancing search functionality and metadata management.}
+%     \resumeItem{Designed a comprehensive \underline{CI/CD} pipeline using \underline{GitHub Actions} to automate the entire software delivery process, including \underline{Docker Image} creation, deployment to \underline{AWS ECR}, and uploading of \underline{JSON} data to \underline{AWS S3}.}
+%     \resumeItem{Leverages \underline{AWS EventBridge} for scheduled triggering of the backend and AWS \underline{API Gateway} for on-demand triggering through \underline{AWS Lambda} which optimizes data processing workflows and ensures high availability and scalability.}
+%     \resumeItem{Engineered a dynamic and responsive frontend using \underline{Next.js} that automatically generates static content from S3-stored JSON data at build time, incorporating \underline{React} UI libraries like \underline{Material UI and DaisyUI} for an enhanced user experience.}
+%     \resumeItem{Configured \underline{Vercel hosting} for continuous deployment of frontend changes, ensuring seamless content updates and system stability with minimal downtime.}
+% \resumeItemListEnd
+
+      % \resumeProjectHeading
+      %       {\textbf{\hspace{-.025cm}Accommodate - HoyaHacks Hackathon}}{\textbf{January 2024}} \\ \vspace{6pt} \emph{various Azure tools, python-dotenv, langchain, openai,  BeautifulSoup}\begin{comment}{\\ \vspace{7pt}{Played a key role in the development of an AI powered chatbot which provides up-to-date admissions information for several Universities.}}\end{comment}
+      %       \vspace{-5pt}
+      %       \resumeItemListStart 
+      %           \resumeItem{Played a key role in the development of an AI powered chatbot which provides up-to-date admissions information for several Universities}
+      %           \resumeItem{Engineered a comprehensive Python application suite, encompassing \underline{web scraping}, \underline{data management}, and \underline{AI-driven chat functionalities using \underline{Azure OpenAI}}.}
+      %           \resumeItem{Implemented web scraping with \underline{Beautiful Soup}, adhering to ethical standards by programmatically accessing and parsing \underline{'robots.txt'} files using \underline{'urllib.robotparser'.}}
+      %           \resumeItem{Integrated \underline{Azure Blob Storage} for data management using the Azure Storage Blob SDK.}
+      %           \resumeItem{The Azure OpenAI powered chatbot was fine-tuned with up-to-date information via the utilization of \underline{LangChain} and \underline{Azure AI Search}}.
+      %           \resumeItemListEnd
+
+    %       %-----------------Spotify Wrap-Up Plus--------------------%
+    %        \resumeProjectHeading
+    %         {\textbf{Spotify Wrap Plus  $|$ \textnormal{{\href{https://github.com/SpencerPresley/SpotifyWrapPlus}{\faGithub\ \underline{SpencerPresley/SpotifyWrapPlus}}}} $|$ \textnormal{2024 HenHacks Hackathon}}\\
+    %         \begin{minipage}[t]{\linewidth}
+    %             \small{\emph{%
+    %             Python, Flask, SpotiPy, Pandas, Plotly, Matplotlib, Threading, 
+    %             }}
+    %         \end{minipage}}
+
+            
+    %         \resumeItemListStart
+    %             \resumeItem{Played a pivotal role in the development of a full-stack application which utilizes the Python \underline{SpotiPy} library to communicate with and retrieve user listening data from the Spotify API in order to visualize an individuals listening habits in various ways.}
+    %             \resumeItem{Utilized Python's \underline{threading} library to speed up the process of retrieving a users entire listening history.}
+    %             \resumeItem{Used the \underline{Flask} web-framework to expose an API endpoint for the frontend to communicate with. Via \underline{OAuth}. we allow the user to authenticate and authorize our application to access and visualize their data.}
+    %             \resumeItem{Through the use of \underline{Plotly} and \underline{Matplotlib} built out several visualizations including: 'Top 50 Artists Across All Time Frames', 'Artist Popularity and Genre Diversity', 'Listening Trends by Decade Era', 'Distribution of Play Times Throughout the Day', 'Overlap Between Recently Played and Top Tracks', 'Distribution of Playlists by Owner', and 'Top Artists Listened to in 2024'. A gallery of all of these visualizations can be found on the homepage of the GitHub repository.}
+    %             \resumeItem{Employed the \underline{OpenAI API} to get further song and artist recommendations based on the data used to create visualizations, included with the recommendations are brief reasons why it was recommended.}
+
+    %         \resumeItemListEnd
+    % \resumeSubHeadingListEnd
+
+% %-----------PROGRAMMING SKILLS-----------
+% \section{Technical Skills}
+%  \begin{itemize}[leftmargin=0.15in, label={}]
+%     \small{\item{
+%      \textbf{Languages}{: Python, Java, JavaScript, C++, C }\\
+%      \textbf{Frameworks}{: Next.js, Tailwind, Flask}\\
+%     \textbf{Libraries:}{
+%         \vspace{-8pt}
+%         \resumeItemListStart
+%             \resumeItem{\textbf{Python:} NumPy, OpenAI, Matplotlib, Pandas, re (regular expressions), PyTorch, Scikit-learn}
+%             \resumeItem{\textbf{JavaScript:} React (including Redux, React Router, and UI Component Libraries)}
+%             \resumeItem{\textbf{C/C++:} STL}
+%             \resumeItem{\textbf{Java:} Swing, Java Sockets, Java Serialization, Java Concurrency}
+%         \resumeItemListEnd
+%     }
+%      \textbf{Developer Tools}{: Docker, Git, GitHub Actions, Android Studio }\\
+%      \textbf{AWS}{: ECR, EventBridge, API GateWay, Lambda, S3}\\
+%      \textbf{Azure}{: Blob Storage, OpenAI }\\
+%      \begin{comment}
+%      \textbf{C Libraries}{: stdio.h, fcntl.h, unistd.h, sys/types.h, sys/ipc.h, sys/shm.h, sys/sem.h, errno.h, stdlib.h, string.h} \\
+%      \textbf{Python Libraries}{: Standard Library, Math, Pandas, NumPy, Scikit-Learn, Matplotlib, Spotipy (wrapper for Spotify API)}
+%      \end{comment}
+%     }}
+%  \end{itemize}
+%-----------BOOTCAMPS--------------------
+  
+
+%-----------EXPERIENCE-----------
+
+% \section{Experience}
+%   \resumeSubHeadingListStart
+
+%     \resumeSubheading
+%       {Domino's Pizza}{October 2019 -- Present}
+%       {Delivery Driver}{}
+%        \begin{itemize}
+%            \item {Cultivated strong interpersonal communication abilities through daily interactions with customers, addressing their concerns, and ensuring satisfaction. Fostered teamwork and exhibited strong work ethic.}
+%          \begin{comment}
+%             \item {Fostered teamwork and exhibited strong work ethic.}
+           
+%             \item{Demonstrated high levels of personal motivation and work ethic, ensuring timely deliveries and maintaining high service standards during fast-paced shifts.}
+%             \end{comment}
+%         \end{itemize}
+%   \resumeSubHeadingListEnd
+
+
+%
+\end{document}
