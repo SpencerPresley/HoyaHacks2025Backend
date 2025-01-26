@@ -1,8 +1,15 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Optional, Set
+import os
+from pathlib import Path
+import json
 
 from resume_wizard.vectordb.searcher import VectorDBSearcher, ResumeSection
+from resume_wizard.vectordb.manager import VectorDBManager
+from resume_wizard.globals import RESUMES_DIR
+from resume_wizard.wizard.rezwiz import run_resume_wizard
 from .dependencies import get_searcher
 
 router = APIRouter()
@@ -159,4 +166,151 @@ async def search_by_filename(
         raise HTTPException(
             status_code=500,
             detail=f"Error searching by filename: {str(e)}"
+        )
+
+@router.post("/upload")
+async def upload_resume(
+    file: UploadFile = File(...),
+    searcher: VectorDBSearcher = Depends(get_searcher)
+) -> dict:
+    """Upload a resume and add it to the vector database.
+    
+    Args:
+        file: The uploaded PDF file
+        searcher: VectorDBSearcher instance (injected via dependency)
+        
+    Returns:
+        dict: Status of the upload and processing
+    """
+    try:
+        if not file.filename.endswith('.pdf'):
+            raise HTTPException(
+                status_code=400,
+                detail="Only PDF files are accepted"
+            )
+        
+        # Save the file
+        file_path = Path(RESUMES_DIR) / file.filename
+        
+        # Ensure directory exists
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Write the file
+        content = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(content)
+            
+        # Get OpenAI API key from environment
+        openai_api_key = os.getenv("OPENAI_API_KEY")
+        if not openai_api_key:
+            raise HTTPException(
+                status_code=500,
+                detail="OpenAI API key not configured"
+            )
+            
+        # Create manager and add resume to database
+        manager = VectorDBManager.load_existing(openai_api_key)
+        success = manager.add_single_resume(file.filename)
+        
+        if not success:
+            raise HTTPException(
+                status_code=500,
+                detail="Failed to process resume"
+            )
+            
+        return {
+            "message": "Resume uploaded and processed successfully",
+            "filename": file.filename
+        }
+        
+    except Exception as e:
+        # Clean up file if it was saved
+        if 'file_path' in locals():
+            try:
+                os.remove(file_path)
+            except:
+                pass
+                
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error processing resume: {str(e)}"
+        )
+
+@router.post("/upload/stream")
+async def upload_and_stream_resume(
+    file: UploadFile = File(...),
+    searcher: VectorDBSearcher = Depends(get_searcher)
+):
+    """Upload a resume and stream the processing status.
+    
+    Args:
+        file: The uploaded PDF file
+        searcher: VectorDBSearcher instance (injected via dependency)
+        
+    Returns:
+        StreamingResponse: A stream of status updates
+    """
+    try:
+        if not file.filename.endswith('.pdf'):
+            raise HTTPException(
+                status_code=400,
+                detail="Only PDF files are accepted"
+            )
+        
+        # Save the file
+        file_path = Path(RESUMES_DIR) / file.filename
+        
+        # Ensure directory exists
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Write the file
+        content = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(content)
+
+        async def process_resume():
+            try:
+                # Stream the processing status
+                for status in run_resume_wizard(file.filename, stream=True):
+                    yield f"data: {json.dumps({'status': status})}\n\n"
+                    
+                # After processing, add to vector database
+                openai_api_key = os.getenv("OPENAI_API_KEY")
+                if not openai_api_key:
+                    yield f"data: {json.dumps({'error': 'OpenAI API key not configured'})}\n\n"
+                    return
+                    
+                manager = VectorDBManager.load_existing(openai_api_key)
+                success = manager.add_single_resume(file.filename)
+                
+                if success:
+                    yield f"data: {json.dumps({'status': '✅ Resume added to database successfully!'})}\n\n"
+                else:
+                    yield f"data: {json.dumps({'error': 'Failed to add resume to database'})}\n\n"
+                    
+            except Exception as e:
+                yield f"data: {json.dumps({'error': str(e)})}\n\n"
+                
+                # Clean up file if there was an error
+                try:
+                    os.remove(file_path)
+                except:
+                    pass
+
+        return StreamingResponse(
+            process_resume(),
+            media_type="text/event-stream"
+        )
+        
+    except Exception as e:
+        # Clean up file if it was saved
+        if 'file_path' in locals():
+            try:
+                os.remove(file_path)
+            except:
+                pass
+                
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error processing resume: {str(e)}"
         )

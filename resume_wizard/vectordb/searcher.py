@@ -42,9 +42,9 @@ class VectorDBSearcher:
         """Load the FAISS database and attach metadata schema."""
         try:
             db = FAISS.load_local(
-                self.vector_db_dir,
-                self.embeddings,
-                self.database_name,
+                folder_path=str(self.vector_db_dir),
+                index_name=self.database_name,
+                embeddings=self.embeddings,
                 allow_dangerous_deserialization=True,
             )
             # Attach metadata schema to loaded database

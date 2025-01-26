@@ -14,7 +14,7 @@ from resume_wizard.globals import RESUMES_DIR
 from resume_wizard.wizard import run_resume_wizard
 
 # Add vector db directory constant
-VECTOR_DB_DIR = Path("vectordb/vector_db")
+VECTOR_DB_DIR = Path(__file__).parent / "vector_db"
 VECTOR_DB_NAME = "resume_db"
 
 load_dotenv()
@@ -33,6 +33,69 @@ class VectorDBManager:
         
         # Create vector db directory if it doesn't exist
         VECTOR_DB_DIR.mkdir(parents=True, exist_ok=True)
+        
+    @classmethod
+    def load_existing(cls, api_key: str) -> 'VectorDBManager':
+        """Load an existing VectorDBManager with a pre-existing database."""
+        manager = cls(api_key)
+        try:
+            manager.db = FAISS.load_local(
+                folder_path=str(VECTOR_DB_DIR),
+                index_name=VECTOR_DB_NAME,
+                embeddings=manager._embeddings,
+                allow_dangerous_deserialization=True  # Safe because we're loading our own files
+            )
+        except Exception as e:
+            print(f"Warning: Could not load existing database: {e}")
+            # Create a new database if loading fails
+            manager.db = manager.create_db().get_db()
+        return manager
+
+    def add_single_resume(self, pdf_filename: str) -> bool:
+        """Process and add a single resume to the existing vector database.
+        
+        Args:
+            pdf_filename: The name of the PDF file to process
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            if not self.db:
+                # Try to load existing database
+                self.db = FAISS.load_local(
+                    folder_path=str(VECTOR_DB_DIR),
+                    index_name=VECTOR_DB_NAME,
+                    embeddings=self._embeddings,
+                    allow_dangerous_deserialization=True  # Safe because we're loading our own files
+                )
+            
+            # Process the single resume and get the final data
+            resume_generator = run_resume_wizard(pdf_filename, stream=True)
+            resume_data = None
+            
+            # Stream all updates and capture the final JSON string
+            for item in resume_generator:
+                if isinstance(item, str) and item.startswith('{'): # Capture the JSON string
+                    resume_data = json.loads(item)
+                yield item  # Stream everything to the frontend
+            
+            if not resume_data:
+                raise ValueError("No resume data generated")
+                
+            documents = self._process_resume_data(resume_data, pdf_filename)
+            
+            # Add to database
+            self.db.add_documents(documents)
+            
+            # Save the updated database
+            self.db.save_local(str(VECTOR_DB_DIR), VECTOR_DB_NAME)
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error adding resume to database: {e}")
+            return False
         
     def create_db(self) -> FAISS:
         try:
